@@ -1,0 +1,31 @@
+---
+- include: check_system.yml
+
+- name: Add repository key
+  apt_key:
+    keyserver: hkp://p80.pool.sks-keyservers.net:80
+    id: 58118E89F3A912897C070ADBF76221572C52609D
+
+- name: App repository
+  apt_repository:
+    repo: 'deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main'
+    filename: docker
+
+- name: Install linux-image-extras
+  shell: apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
+
+- name: Install packages
+  apt: "{{ item }}"
+  with_items:
+    - { name: lxc-docker, state: absent, purge: yes }
+    - { name: apt-transport-https }
+    - { name: ca-certificates }
+    - { name: docker-engine }
+
+- name: Start docker
+  service: name=docker state=restarted enabled=yes
+  when: ansible_distribution_release == "trusty"
+
+- name: Start docker
+  systemd: name=docker state=restarted enabled=yes
+  when: ansible_distribution_release == "xenial"
