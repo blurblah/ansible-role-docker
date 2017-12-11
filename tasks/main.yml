@@ -1,5 +1,5 @@
 ---
-- include: check_system.yml
+- import_tasks: check_system.yml
 
 - name: Add repository key
   apt_key:
@@ -24,13 +24,13 @@
   when: docer_version_name is defined and docer_version_name.stdout != ""
 
 - name: Install packages
-  apt: "{{ item }}"
+  apt: name={{ item }}
   with_items:
-    - { name: apt-transport-https }
-    - { name: ca-certificates }
-    - { name: curl }
-    - { name: software-properties-common }
-    - { name: "{{ docker_package }}" }
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+    - "{{ docker_package }}"
 
 - name: Start docker
   service: name=docker state=restarted enabled=yes
