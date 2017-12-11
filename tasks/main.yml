@@ -16,12 +16,12 @@
 
 - name: Refine docker version
   shell: "apt-cache madison {{ docker_package }} | grep {{ docker_version }} | head -n 1 | cut -d ' ' -f 4"
-  register: docer_version_name
+  register: docker_version_name
   when: docker_version is defined
 
 - name: Define docker-ce package name and version to install
-  set_fact: { docker_package: "{{ docker_package }}={{ docer_version_name.stdout }}" }
-  when: docer_version_name is defined and docer_version_name.stdout != ""
+  set_fact: { docker_package: "{{ docker_package }}={{ docker_version_name.stdout }}" }
+  when: docker_version_name is defined and docker_version_name.stdout != ""
 
 - name: Install packages
   apt: name={{ item }}
