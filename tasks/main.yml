@@ -19,9 +19,14 @@
   register: docker_version_name
   when: docker_version is defined
 
+#- debug:
+#    msg: "docker_package:{{ docker_package }}  docker_version_name:{{ docker_version_name }}"
+
+#- fail:
+
 - name: Define docker-ce package name and version to install
   set_fact: { docker_package: "{{ docker_package }}={{ docker_version_name.stdout }}" }
-  when: docker_version_name is defined and docker_version_name.stdout != ""
+  when: docker_version_name is defined and docker_version_name.stdout is defined and docker_version_name.stdout != ''
 
 - name: Install packages
   apt: name={{ item }}
