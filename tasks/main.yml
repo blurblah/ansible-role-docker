@@ -37,10 +37,14 @@
     - software-properties-common
     - "{{ docker_package }}"
 
-- name: Start docker
+- name: Start docker on trusty
   service: name=docker state=restarted enabled=yes
   when: ansible_distribution_release == "trusty"
 
-- name: Start docker
+- name: Start docker on xenial
   systemd: name=docker state=restarted enabled=yes
   when: ansible_distribution_release == "xenial"
+
+- name: Install docker-py
+  pip: name=docker-py
+  when: install_docker_py
