@@ -14,5 +14,4 @@
 - name: check distribution version
   fail:
     msg: "Not supported {{ ansible_distribution }} {{ ansible_distribution_version }}"
-  when: ansible_distribution_version not in ['14.04', '16.04']
-  
+  when: ansible_distribution_version not in ['16.04']

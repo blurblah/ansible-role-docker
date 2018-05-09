@@ -1,3 +1,5 @@
 ---
 docker_package: docker-ce
 install_docker_py: false
+enable_registry_login: false
+docker_registry_url: https://index.docker.io/v1/

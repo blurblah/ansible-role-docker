@@ -1,0 +1,5 @@
+---
+- name: Check registry username and password
+  fail:
+    msg: Undefined variables docker_registry_username or docker_registry_password
+  when: enable_registry_login and (docker_registry_username is undefined or docker_registry_password is undefined)
